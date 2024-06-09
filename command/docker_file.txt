@@ -1,0 +1,62 @@
+1] Struct
+2] Command
+3] Example	
+--------
+1) Struct
+	1} Base image:
+		FROM ubuntu:22.04
+	2} Description
+		Lable autor=Name; Label type=... etc
+	3} Command:
+		
+	4} Work dir:
+		WORKDIR path
+
+	5} Files move:
+		COPY path1 path_in_docker
+
+	6} Comand for working with file:
+		RUN chmod +x path_to_file
+	
+	7} Enviroment
+		ENV OWNER=''
+		ENV TEST=''
+
+	8} Ports:
+		EXPOSE 80 -> this just information(not work)
+
+	9} Comand with run(script)
+		ENTRYPOINT ['echo'] # Не изменяемая команда
+		CMD ['Hello world] # Изменяемый параметр, можно команду и в CMD
+
+---------------------
+
+2) Comand for build
+	1) docker build -t name_image:version path
+	2) docker tag id_image name:version
+
+
+3) dockerfile as example:
+
+FROM nginx:1.21.6
+
+LABEL author="fredatar"
+
+WORKDIR /app
+
+ENV DOCKER_CONTENT_TRUST=1
+
+COPY main.c start.sh /app/
+COPY nginx/nginx2.conf /etc/nginx/nginx.conf
+
+RUN apt -y update && \
+    apt install -y gcc spawn-fcgi libfcgi-dev && \
+    rm -rf /var/lib/apt/lists/* && \
+    chown www-data:www-data -R /app && \
+    chown www-data:www-data /etc/nginx/nginx.conf && \
+    chown www-data:www-data /var/cache/nginx && \
+    chown www-data:www-data /run
+
+USER www-data
+
+CMD [ "/bin/bash", "start.sh" ]

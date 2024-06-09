@@ -1,0 +1,69 @@
+
+List:
+1) Main command
+2) Option for run
+3) Option on running container
+4) Logs and metainfo
+5) Network!
+
+	1]Main command:
+->>>> main flags
+docker run --rm -it --name container1 --net bridge ubuntu /bin/bash
+<<<<-
+0)sudo
+1)docker ps
+2)images or "image ls" 
+3)rmi id -> rm image
+-------
+
+	2]Options for run
+1)docker run (option -d without block terminal)
+2)docker run -e(option venv)
+3)-p "host_port:docker_port" -> forward ports
+4)-P -> random port
+5)--rm -> kill container without stop(stop = kill or kill = stop+kill)
+
+Пример: 
+docker run -d --rm --name My-Container image:version echo "Hello"
+where is "echo" is edition command
+
+-----
+
+	3] Option on is running container
+docker exec -it id  /bin/bash -> it - iteractife
+
+	4] logs and metainformation
+1)docker logs id(name) (-f - real time)
+2)doker --tail n: end n lines
+3)docker inspect id 
+4)docker stats id -> info about resours(CPU, MEM, NET and ets)
+
+------------
+	5] Volume
+Сохранение состаяния(файлов) не в контейнере, а на сервере.
+1) -v fisic_path:docker_path
+2) -v name:docker_path -> Named_Volume
+3) -v docker_path -> Anonymous Volumes -> Состояние не сохраняется
+
+command:
+1) docker volume ls
+2) docker volume create\rm
+
+
+	6] Network
+Docker have 3 main network: bridge(default), host, none
+1) bridge -> default : -p p1:p2 
+2) host -> host network
+3) none -> close network
+--
+   1}Bridge
+1)Есть стандарный,в нем нельзя исплозьвовать DNS,
+можно создать свою сеть bridge( там можно использовать DNS), их может быть несклолько
+   2}Command
+1) --network=name при создании контейнера(run)
+2) network create --driver bridge NAME -> Можно без --driver bridge ->default
+3) network create --driver bridge --subnet ip/mask --gateway ip name
+4) network ls
+5) netowrk inspect name_net
+6) network connect container_name name_net
+7) network disconnect hash_net container

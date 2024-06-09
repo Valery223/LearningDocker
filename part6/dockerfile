@@ -1,0 +1,22 @@
+FROM nginx:1.21.6
+
+LABEL author="fredatar"
+
+WORKDIR /app
+
+ENV DOCKER_CONTENT_TRUST=1
+
+COPY main.c start.sh /app/
+COPY nginx/nginx2.conf /etc/nginx/nginx.conf
+
+RUN apt -y update && \
+    apt install -y gcc spawn-fcgi libfcgi-dev && \
+    rm -rf /var/lib/apt/lists/* && \
+    chown www-data:www-data -R /app && \
+    chown www-data:www-data /etc/nginx/nginx.conf && \
+    chown www-data:www-data /var/cache/nginx && \
+    chown www-data:www-data /run
+
+USER www-data
+
+CMD [ "/bin/bash", "start.sh" ]

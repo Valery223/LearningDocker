@@ -1,0 +1,12 @@
+FROM nginx:latest
+
+Label autor=fredatar;
+
+WORKDIR /app
+
+COPY main.c start.sh /app/
+COPY ./nginx/nginx.conf /etc/nginx/
+
+RUN apt -y update && apt install -y gcc spawn-fcgi libfcgi-dev
+
+CMD [ "/bin/bash", "start.sh" ]
